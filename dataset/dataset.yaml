@@ -1,0 +1,174 @@
+# linkml generate json-schema --top-class Dataset dataset.yaml > dataset.schema.json 
+# linkml generate shacl dataset.yaml 
+# linkml convert --output-format ttl --target-class Dataset --schema dataset.yaml dataset.example.json 
+id: http://example.com/marco-bolo/dataset
+name: Dataset
+prefixes: 
+  linkml: https://w3id.org/linkml/
+  mbo: http://example.com/marco-bolo/
+  schema: http://schema.org/
+  goos: https://goosocean.org/document/ # Importer doesn't seem to be able to merge imports correctly.
+  shex: http://www.w3.org/ns/shex# # Importer doesn't seem to be able to merge imports correctly.
+  rdfs: http://www.w3.org/1999/02/22-rdf-syntax-ns# # Importer doesn't seem to be able to merge imports correctly.
+imports:
+  - linkml:types
+  - ../essential-ocean-variables
+  - ../uri-or-curie-as-node
+
+classes:
+
+  Dataset:
+    tree_root: True
+    class_uri: schema:Dataset
+    description: The MBO implementation of a schema:Dataset
+    slots:
+      - dataset_identifier
+      - dataset_describer
+      - dataset_title
+      - dataset_description
+      - data_landing_page_url
+      - not_accessible_data
+      - in_progress_data_date
+      - eov_description
+      - eov_description_bio_geo_chemistry
+      - eov_description_physics
+      - evb
+      - indicator
+      - source_dataset_identifier
+
+slots:
+
+  dataset_identifier:
+    identifier: True
+    required: True
+    description: An internal ID for the dataset.@en
+    comments:
+    - The identifier property represents any kind of identifier for any kind of <a
+      class=\"localLink\" href=\"/Thing\">Thing</a>, such as ISBNs, GTIN codes, UUIDs
+      etc. Schema.org provides dedicated properties for representing many of these,
+      either as textual strings or as URL (URI) links. See <a href=\"/docs/datamodel.html#identifierBg\">background
+      notes</a> for more details.@en
+    slot_uri: schema:identifier
+    range: UriOrCurieAsNode
+  
+
+  dataset_describer:
+    required: True
+    description: The name of the agent (filled in in the Agents tab) who filled in this dataset row, and whom we can contact with any questions.@en
+    comments:
+      - "Indicates the party responsible for generating and publishing the current structured
+      data markup, typically in cases where the structured data is derived automatically
+      from existing published content but published on a different site. For example,
+      student projects and open data initiatives often re-publish existing content
+      with more explicitly structured metadata. The
+
+      <a class=\"localLink\" href=\"/sdPublisher\">sdPublisher</a> property helps
+      make such practices more explicit.@en"
+    slot_uri: schema:sdPublisher
+    range: UriOrCurieAsNode
+    # range: schema:Organization or schema:Person (or URI tbh)
+    # todo: Figure out how VLIZ deals with this. Do they create unique Organisations for each unique string?
+
+  dataset_title:
+    required: True
+    description: A title for the dataset.@en
+    comments:
+    - The name of the item.@en
+    slot_uri: schema:name
+    range: string
+
+  dataset_description:
+    required: True
+    description: A brief description of the dataset.@en
+    comments:
+    - A description of the item.@en
+    slot_uri: schema:description
+    range: string
+    # todo: range Could also be a `schema:TextObject`.
+
+  data_landing_page_url:
+    required: True
+    description: 'A dataset landing page is a dedicated web page that serves as the entry point to access comprehensive information about a specific dataset, including its contents, structure, and metadata: for example, the DOI or URL of a metadata record of the dataset.@en'
+    # If the same data are published in multiple places, use "|" to separate them. 
+    comments:
+    - URL of the item.@en
+    slot_uri: schema:url
+    multivalued: True
+    range: uri
+    # todo: Isn't there some way to support `|` delimited fields in a CSV file here?
+
+  not_accessible_data:
+    # TODO: This says required in the spreadsheet, but surely it's optional? Marking as recommended for now.
+    recommended: True
+    description: If the data do exist but are not published, please explain here why that is and how WP1 could help publish these data.@en
+    comments:
+    - 'Conditions that affect the availability of, or method(s) of access to, an item.
+      Typically used for real world items such as an <a class=\"localLink\" href=\"/ArchiveComponent\">ArchiveComponent</a>
+      held by an <a class=\"localLink\" href=\"/ArchiveOrganization\">ArchiveOrganization</a>.
+      This property is not suitable for use as a general Web access control mechanism.
+      It is expressed only in natural language.<br/><br/>
+
+
+      For example \"Available by appointment from the Reading Room\" or \"Accessible
+      only from logged-in accounts \".@en'
+    slot_uri: schema:conditionsOfAccess
+    range: string # todo: Check this.
+
+
+  in_progress_data_date:
+    required: True
+    description: 'For data that are still in progress, please fill in an approximate date (YYYY-MM-DD) you expect them to be published.@en'
+    slot_uri: mbo:inProgressDataDate
+    range: date
+
+  eov_description: 
+    required: False
+    recommended: True
+    description: Choose from the drop-down which EOV your dataset contains - mandatory where applicable
+    slot_uri: schema:variableMeasured
+    range: EovDescriptions
+
+  eov_description_bio_geo_chemistry:
+    required: False
+    recommended: True
+    description: Finer detail on the EOVs - mandatory where applicable
+    slot_uri: schema:variableMeasured
+    range: EovDescriptionsBioGeoChemistry
+
+  eov_description_physics:
+    required: False
+    recommended: True
+    description: Finer detail on the EOVs - mandatory where applicable
+    slot_uri: schema:variableMeasured
+    range: EovDescriptionsPhysics
+
+  evb:
+    required: False
+    recommended: True
+    description: Choose from the drop-down which EBV your dataset contains- mandatory where applicable
+    slot_uri: schema:variableMeasured
+    range: uriorcurie
+
+  indicator:
+    required: False
+    recommended: True
+    description: Choose from the drop-down which Indicator your dataset contains- mandatory where applicable
+    slot_uri: schema:variableMeasured
+    range: uriorcurie
+
+  source_dataset_identifier:
+    required: False
+    recommended: True
+    multivalued: True
+    slot_uri: schema:isBasedOn
+    # todo: Does this *really* fit under `schema:identifier` or should there be some other predicate? (Using schema:isBasedOn' for now.)
+    description: |-
+      This column is to allow us to link datasets together: for example, an EOV dataset described here is based on a raw dataset also described here. 
+      
+      For each dataset in each row: indicate here the input/source data to this dataset. Use this decision tree:
+
+      1- If the source dataset is listed already in this spreadsheet, then write its datasetIdentifier (column 1)
+      2- OR If this source dataset is not listed here, write its dataLandingPageURL (see column 5 for an explanation)
+      3- OR If these source data are not published, then write ""not published"", and add an explanation why (so we can help publish them)
+      4- OR If there is no source data (i.e. what is in this row IS the source data) then leave it blank
+    range: UriOrCurieAsNode

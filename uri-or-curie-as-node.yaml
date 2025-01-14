@@ -1,0 +1,14 @@
+id: http://example.com/mbo/uri-or-curie-as-node
+name: Uri_Or_Curie_as_Node
+
+prefixes: 
+  rdfs: http://www.w3.org/1999/02/22-rdf-syntax-ns# # Importer doesn't seem to be able to merge imports correctly.
+
+
+types:
+
+  UriOrCurieAsNode:
+    typeof: uriorcurie
+    description: Use this only in the `range` field of a slot to make a URI point at a node in an RDF graph.
+    base: str
+    uri: rdfs:Resource

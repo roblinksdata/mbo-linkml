@@ -1,0 +1,73 @@
+id: http://example.com/marco-bolo/
+name: Essential_Ocean_Variable_Definitions
+prefixes: 
+  goos: https://goosocean.org/document/
+
+enums: 
+  EovDescriptions:
+    permissible_values:
+      # https://github.com/marco-bolo/dataset-catalogue/issues/36#issuecomment-2586625316
+      Phytoplankton biomass and diversity:
+        meaning: goos:17507
+      Zooplankton biomass and diversity:
+        meaning: goos:17509
+      Fish abundance and distribution:
+        meaning: goos:17510
+      Marine turtles, birds, mammals abundance and distribution:
+        meaning: goos:17511
+      Hard coral cover and composition:
+        meaning: goos:17512
+      Seagrass cover and composition:
+        meaning: goos:17513
+      Macroalgal canopy cover and composition:
+        meaning: goos:17515
+      Mangrove cover and composition:
+        meaning: goos:17514
+
+  EovDescriptionsBioGeoChemistry:
+    permissible_values:
+      # https://github.com/marco-bolo/dataset-catalogue/issues/36#issuecomment-2586625316
+      Oxygen:
+        meaning: goos:17473
+      Nutrients:
+        meaning: goos:17474
+      Inorganic carbon:
+        meaning: goos:17475
+      Transient tracers:
+        meaning: goos:17476
+      Particulate matter:
+        meaning: goos:17477
+      Nitrous oxide:
+        meaning: goos:17478
+      Stable carbon isotopes:
+        meaning: goos:17479
+      Dissolved organic carbon:
+        meaning: goos:17480
+
+  EovDescriptionsPhysics:
+    permissible_values:
+      # https://github.com/marco-bolo/dataset-catalogue/issues/36#issuecomment-2586625316
+      Sea state:
+        meaning: goos:17462
+      Ocean surface stress:
+        meaning: goos:17463
+      Sea ice:
+        meaning: goos:17464
+      Sea surface height:
+        meaning: goos:17465
+      Sea surface temperature:
+        meaning: goos:17466
+      Subsurface temperature:
+        meaning: goos:17467
+      Surface currents:
+        meaning: goos:17468
+      Subsurface currents:
+        meaning: goos:17469
+      Sea surface salinity:
+        meaning: goos:17470
+      Subsurface salinity:
+        meaning: goos:17471
+      Ocean surface heat flux:
+        meaning: goos:17472
+      Ocean bottom pressure:
+        meaning: goos:32488
