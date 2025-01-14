@@ -8,10 +8,10 @@
     "http://example.com/some-dataset/other-format"
   ],
   "in_progress_data_date": "2025-01-13",
-  "eov_description": "Marine turtles, birds, mammals abundance and distribution",
-  "eov_description_bio_geo_chemistry": "Particulate matter",
-  "eov_description_physics": "Sea surface temperature",
-  "source_dataset_identifier": [
+  "eov": "Marine turtles, birds, mammals abundance and distribution",
+  "eov_bio_geo_chemistry": "Particulate matter",
+  "eov_physics": "Sea surface temperature",
+  "based_on_identifier": [
     "http://example.com/some-previous-dataset"
   ],
   "@type": "Dataset",
@@ -28,6 +28,10 @@
     "shex": "http://www.w3.org/ns/shex#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "@vocab": "http://example.com/marco-bolo/dataset/",
+    "based_on_identifier": {
+      "@type": "rdfs:Resource",
+      "@id": "schema:isBasedOn"
+    },
     "data_landing_page_url": {
       "@type": "xsd:anyURI",
       "@id": "schema:url"
@@ -47,7 +51,7 @@
       "@type": "schema:Dataset",
       "@id": "datasets"
     },
-    "eov_description": {
+    "eov": {
       "@context": {
         "text": "skos:notation",
         "description": "skos:prefLabel",
@@ -55,7 +59,7 @@
       },
       "@id": "schema:variableMeasured"
     },
-    "eov_description_bio_geo_chemistry": {
+    "eov_bio_geo_chemistry": {
       "@context": {
         "text": "skos:notation",
         "description": "skos:prefLabel",
@@ -63,7 +67,7 @@
       },
       "@id": "schema:variableMeasured"
     },
-    "eov_description_physics": {
+    "eov_physics": {
       "@context": {
         "text": "skos:notation",
         "description": "skos:prefLabel",
@@ -85,10 +89,6 @@
     },
     "not_accessible_data": {
       "@id": "schema:conditionsOfAccess"
-    },
-    "source_dataset_identifier": {
-      "@type": "rdfs:Resource",
-      "@id": "schema:isBasedOn"
     },
     "DatasetContainer": {
       "@id": "DatasetContainer"

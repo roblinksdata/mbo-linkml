@@ -1,7 +1,7 @@
 {
-    "eov_description_physics": "Sea surface temperature",
-    "eov_description_bio_geo_chemistry": "Particulate matter",
-    "eov_description": "Marine turtles, birds, mammals abundance and distribution",
+    "eov_physics": "Sea surface temperature",
+    "eov_bio_geo_chemistry": "Particulate matter",
+    "eov": "Marine turtles, birds, mammals abundance and distribution",
     "dataset_title": "Some title",
     "dataset_identifier": "https://example.com/some-identifier",
     "dataset_description": "Some description",
@@ -11,7 +11,7 @@
       "http://example.com/some-dataset",
       "http://example.com/some-dataset/other-format"
     ],
-    "source_dataset_identifier": [
+    "based_on_identifier": [
       "http://example.com/some-previous-dataset"
     ]
   }

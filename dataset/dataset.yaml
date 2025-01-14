@@ -1,16 +1,20 @@
 # Linting:
+#
 #   linkml lint --validate dataset.yaml
 #
 # Singular conversions:
+#
 #   linkml generate json-schema --top-class Dataset dataset.yaml > dataset.schema.json 
+#   linkml generate shacl dataset.yaml > dataset.shacl.ttl
 #   linkml validate --target-class Dataset --schema dataset.yaml examples/dataset.json 
 # 
-#   linkml generate shacl dataset.yaml > dataset.shacl.ttl
 #   linkml convert --output-format ttl --target-class Dataset --schema dataset.yaml examples/dataset.json > examples/dataset.ttl
 #   linkml convert --output-format json-ld --target-class Dataset --schema dataset.yaml examples/dataset.json > examples/dataset.jsonld.json
 #
 # Tabular conversions:
+#
 #   linkml generate json-schema --top-class DatasetContainer dataset.yaml > datasets.schema.json
+#
 #   linkml validate --target-class DatasetContainer --schema dataset.yaml examples/datasets.json 
 #   linkml convert --output-format csv --target-class DatasetContainer --index-slot datasets --schema dataset.yaml examples/datasets.json > examples/datasets.csv
 #   linkml convert --output-format json --target-class DatasetContainer --index-slot datasets --schema dataset.yaml examples/datasets.csv > examples/datasets.json
@@ -52,19 +56,20 @@ classes:
       - data_landing_page_url
       - not_accessible_data
       - in_progress_data_date
-      - eov_description
-      - eov_description_bio_geo_chemistry
-      - eov_description_physics
+      - eov
+      - eov_bio_geo_chemistry
+      - eov_physics
       - evb
       - indicator
-      - source_dataset_identifier
+      - based_on_identifier
 
 slots:
 
   dataset_identifier:
     identifier: True
     required: True
-    description: An internal ID for the dataset.@en
+    title: URI Identifier
+    description: An internal ID for the dataset. Must be a URI.@en
     comments:
     - The identifier property represents any kind of identifier for any kind of <a
       class=\"localLink\" href=\"/Thing\">Thing</a>, such as ISBNs, GTIN codes, UUIDs
@@ -74,11 +79,13 @@ slots:
     slot_uri: schema:identifier
     exact_cardinality: 1
     range: UriOrCurieAsNode
+    rank: 0
   
 
   dataset_describer:
     required: True
-    description: The name of the agent (filled in in the Agents tab) who filled in this dataset row, and whom we can contact with any questions.@en
+    title: Describer URI (you)
+    description: The URI of the agent (filled in in the Agents tab) who filled in this dataset row, and whom we can contact with any questions.@en
     comments:
       - "Indicates the party responsible for generating and publishing the current structured
       data markup, typically in cases where the structured data is derived automatically
@@ -91,41 +98,49 @@ slots:
     slot_uri: schema:sdPublisher
     exact_cardinality: 1
     range: UriOrCurieAsNode
+    rank: 1
     # range: schema:Organization or schema:Person (or URI tbh)
     # todo: Figure out how VLIZ deals with this. Do they create unique Organisations for each unique string?
 
+
   dataset_title:
     required: True
+    title: Title
     description: A title for the dataset.@en
     comments:
     - The name of the item.@en
     slot_uri: schema:name
     range: string
+    rank: 2
 
   dataset_description:
     required: True
+    title: Description
     description: A brief description of the dataset.@en
     comments:
     - A description of the item.@en
     slot_uri: schema:description
     range: string
     # todo: range Could also be a `schema:TextObject`.
+    rank: 3
 
   data_landing_page_url:
     required: True
+    title: Data Landing Page URL
     description: 'A dataset landing page is a dedicated web page that serves as the entry point to access comprehensive information about a specific dataset, including its contents, structure, and metadata: for example, the DOI or URL of a metadata record of the dataset.@en'
     # If the same data are published in multiple places, use "|" to separate them. 
     comments:
-    - URL of the item.@en
+      - URL of the item.@en
     slot_uri: schema:url
     multivalued: True
     range: uri
-    # todo: Isn't there some way to support `|` delimited fields in a CSV file here?
+    rank: 4
 
   not_accessible_data:
     # TODO: This says required in the spreadsheet, but surely it's optional? Marking as recommended for now.
     required: False
     recommended: True
+    title: Data Not Accessible Reason
     description: If the data do exist but are not published, please explain here why that is and how WP1 could help publish these data.@en
     comments:
     - 'Conditions that affect the availability of, or method(s) of access to, an item.
@@ -137,62 +152,75 @@ slots:
 
       For example \"Available by appointment from the Reading Room\" or \"Accessible
       only from logged-in accounts \".@en'
-    slot_uri: schema:conditionsOfAccess
-    maximum_cardinality: 1
+    slot_uri: schema:conditionsOfAccess # todo: Check this
     range: string # todo: Check this.
+    rank: 5
 
 
   in_progress_data_date:
-    required: True
+    required: False
+    title: In Progress Data Publish Date
     description: 'For data that are still in progress, please fill in an approximate date (YYYY-MM-DD) you expect them to be published.@en'
-    slot_uri: mbo:inProgressDataDate
+    slot_uri: mbo:inProgressDataDate # todo: Does this need to map to something better?
     maximum_cardinality: 1
     range: date
+    rank: 6
 
-  eov_description: 
+  eov: 
     required: False
     recommended: True
+    title: Essential Ocean Variable
     description: Choose from the drop-down which EOV your dataset contains - mandatory where applicable
     slot_uri: schema:variableMeasured
     maximum_cardinality: 1
     range: EovDescriptions
+    rank: 7
 
-  eov_description_bio_geo_chemistry:
+  eov_bio_geo_chemistry:
     required: False
     recommended: True
+    title: Essential Ocean Variable (Bio-Geo-Chemistry)
     description: Finer detail on the EOVs - mandatory where applicable
     slot_uri: schema:variableMeasured
     maximum_cardinality: 1
     range: EovDescriptionsBioGeoChemistry
+    rank: 8
 
-  eov_description_physics:
+  eov_physics:
     required: False
     recommended: True
+    title: Essential Ocean Variable (Physics)
     description: Finer detail on the EOVs - mandatory where applicable
     slot_uri: schema:variableMeasured
     maximum_cardinality: 1
     range: EovDescriptionsPhysics
+    rank: 9
 
   evb:
     required: False
     recommended: True
+    title: Essential Biodiversity Variable
     description: Choose from the drop-down which EBV your dataset contains- mandatory where applicable
     slot_uri: schema:variableMeasured
     maximum_cardinality: 1
     range: uriorcurie
+    rank: 10
 
   indicator:
     required: False
     recommended: True
+    title: Indicator
     description: Choose from the drop-down which Indicator your dataset contains- mandatory where applicable
     slot_uri: schema:variableMeasured
     maximum_cardinality: 1
     range: uriorcurie
+    rank: 11
 
-  source_dataset_identifier:
+  based_on_identifier:
     required: False
     recommended: True
     multivalued: True
+    title: Based on URI
     slot_uri: schema:isBasedOn
     # todo: Does this *really* fit under `schema:identifier` or should there be some other predicate? (Using schema:isBasedOn' for now.)
     description: |-
@@ -205,3 +233,4 @@ slots:
       3- OR If these source data are not published, then write ""not published"", and add an explanation why (so we can help publish them)
       4- OR If there is no source data (i.e. what is in this row IS the source data) then leave it blank
     range: UriOrCurieAsNode
+    rank: 12
