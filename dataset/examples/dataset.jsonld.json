@@ -1,0 +1,97 @@
+{
+  "dataset_identifier": "https://example.com/some-identifier",
+  "dataset_describer": "https://example.com/some-creator",
+  "dataset_title": "Some title",
+  "dataset_description": "Some description",
+  "data_landing_page_url": [
+    "http://example.com/some-dataset",
+    "http://example.com/some-dataset/other-format"
+  ],
+  "in_progress_data_date": "2025-01-13",
+  "eov_description": "Marine turtles, birds, mammals abundance and distribution",
+  "eov_description_bio_geo_chemistry": "Particulate matter",
+  "eov_description_physics": "Sea surface temperature",
+  "source_dataset_identifier": [
+    "http://example.com/some-previous-dataset"
+  ],
+  "@type": "Dataset",
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Dataset": {
+      "@id": "schema:Dataset"
+    },
+    "goos": "https://goosocean.org/document/",
+    "linkml": "https://w3id.org/linkml/",
+    "mbo": "http://example.com/marco-bolo/",
+    "rdfs": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "schema": "http://schema.org/",
+    "shex": "http://www.w3.org/ns/shex#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "@vocab": "http://example.com/marco-bolo/dataset/",
+    "data_landing_page_url": {
+      "@type": "xsd:anyURI",
+      "@id": "schema:url"
+    },
+    "dataset_describer": {
+      "@type": "rdfs:Resource",
+      "@id": "schema:sdPublisher"
+    },
+    "dataset_description": {
+      "@id": "schema:description"
+    },
+    "dataset_identifier": "@id",
+    "dataset_title": {
+      "@id": "schema:name"
+    },
+    "datasets": {
+      "@type": "schema:Dataset",
+      "@id": "datasets"
+    },
+    "eov_description": {
+      "@context": {
+        "text": "skos:notation",
+        "description": "skos:prefLabel",
+        "meaning": "@id"
+      },
+      "@id": "schema:variableMeasured"
+    },
+    "eov_description_bio_geo_chemistry": {
+      "@context": {
+        "text": "skos:notation",
+        "description": "skos:prefLabel",
+        "meaning": "@id"
+      },
+      "@id": "schema:variableMeasured"
+    },
+    "eov_description_physics": {
+      "@context": {
+        "text": "skos:notation",
+        "description": "skos:prefLabel",
+        "meaning": "@id"
+      },
+      "@id": "schema:variableMeasured"
+    },
+    "evb": {
+      "@type": "xsd:anyURI",
+      "@id": "schema:variableMeasured"
+    },
+    "in_progress_data_date": {
+      "@type": "xsd:date",
+      "@id": "mbo:inProgressDataDate"
+    },
+    "indicator": {
+      "@type": "xsd:anyURI",
+      "@id": "schema:variableMeasured"
+    },
+    "not_accessible_data": {
+      "@id": "schema:conditionsOfAccess"
+    },
+    "source_dataset_identifier": {
+      "@type": "rdfs:Resource",
+      "@id": "schema:isBasedOn"
+    },
+    "DatasetContainer": {
+      "@id": "DatasetContainer"
+    }
+  }
+}

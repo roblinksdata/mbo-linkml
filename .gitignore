@@ -1,2 +1,3 @@
 schemaorg.yaml
 *.schema.json
+*.shacl.ttl

@@ -1,0 +1,18 @@
+@prefix goos: <https://goosocean.org/document/> .
+@prefix mbo: <http://example.com/marco-bolo/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.com/some-identifier> a schema1:Dataset ;
+    mbo:inProgressDataDate "2025-01-13"^^xsd:date ;
+    schema1:description "Some description" ;
+    schema1:isBasedOn <http://example.com/some-previous-dataset> ;
+    schema1:name "Some title" ;
+    schema1:sdPublisher <https://example.com/some-creator> ;
+    schema1:url "http://example.com/some-dataset"^^xsd:anyURI,
+        "http://example.com/some-dataset/other-format"^^xsd:anyURI ;
+    schema1:variableMeasured goos:17466,
+        goos:17477,
+        goos:17511 .
+
+

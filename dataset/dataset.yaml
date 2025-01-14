@@ -1,6 +1,19 @@
-# linkml generate json-schema --top-class Dataset dataset.yaml > dataset.schema.json 
-# linkml generate shacl dataset.yaml 
-# linkml convert --output-format ttl --target-class Dataset --schema dataset.yaml dataset.example.json 
+# Linting:
+#   linkml lint --validate dataset.yaml
+#
+# Singular conversions:
+#   linkml generate json-schema --top-class Dataset dataset.yaml > dataset.schema.json 
+#   linkml validate --target-class Dataset --schema dataset.yaml examples/dataset.json 
+# 
+#   linkml generate shacl dataset.yaml > dataset.shacl.ttl
+#   linkml convert --output-format ttl --target-class Dataset --schema dataset.yaml examples/dataset.json > examples/dataset.ttl
+#   linkml convert --output-format json-ld --target-class Dataset --schema dataset.yaml examples/dataset.json > examples/dataset.jsonld.json
+#
+# Tabular conversions:
+#   linkml generate json-schema --top-class DatasetContainer dataset.yaml > datasets.schema.json
+#   linkml validate --target-class DatasetContainer --schema dataset.yaml examples/datasets.json 
+#   linkml convert --output-format csv --target-class DatasetContainer --index-slot datasets --schema dataset.yaml examples/datasets.json > examples/datasets.csv
+#   linkml convert --output-format json --target-class DatasetContainer --index-slot datasets --schema dataset.yaml examples/datasets.csv > examples/datasets.json
 id: http://example.com/marco-bolo/dataset
 name: Dataset
 prefixes: 
@@ -16,6 +29,16 @@ imports:
   - ../uri-or-curie-as-node
 
 classes:
+
+  DatasetContainer:
+    description: Only necessary when converting to/from tabular representations
+    attributes:
+      datasets:
+        required: True
+        multivalued: True
+        inlined_as_list: true
+        description: A collection of `schema:Datasets`
+        range: Dataset
 
   Dataset:
     tree_root: True
@@ -49,6 +72,7 @@ slots:
       either as textual strings or as URL (URI) links. See <a href=\"/docs/datamodel.html#identifierBg\">background
       notes</a> for more details.@en
     slot_uri: schema:identifier
+    exact_cardinality: 1
     range: UriOrCurieAsNode
   
 
@@ -65,6 +89,7 @@ slots:
       <a class=\"localLink\" href=\"/sdPublisher\">sdPublisher</a> property helps
       make such practices more explicit.@en"
     slot_uri: schema:sdPublisher
+    exact_cardinality: 1
     range: UriOrCurieAsNode
     # range: schema:Organization or schema:Person (or URI tbh)
     # todo: Figure out how VLIZ deals with this. Do they create unique Organisations for each unique string?
@@ -99,6 +124,7 @@ slots:
 
   not_accessible_data:
     # TODO: This says required in the spreadsheet, but surely it's optional? Marking as recommended for now.
+    required: False
     recommended: True
     description: If the data do exist but are not published, please explain here why that is and how WP1 could help publish these data.@en
     comments:
@@ -112,6 +138,7 @@ slots:
       For example \"Available by appointment from the Reading Room\" or \"Accessible
       only from logged-in accounts \".@en'
     slot_uri: schema:conditionsOfAccess
+    maximum_cardinality: 1
     range: string # todo: Check this.
 
 
@@ -119,6 +146,7 @@ slots:
     required: True
     description: 'For data that are still in progress, please fill in an approximate date (YYYY-MM-DD) you expect them to be published.@en'
     slot_uri: mbo:inProgressDataDate
+    maximum_cardinality: 1
     range: date
 
   eov_description: 
@@ -126,6 +154,7 @@ slots:
     recommended: True
     description: Choose from the drop-down which EOV your dataset contains - mandatory where applicable
     slot_uri: schema:variableMeasured
+    maximum_cardinality: 1
     range: EovDescriptions
 
   eov_description_bio_geo_chemistry:
@@ -133,6 +162,7 @@ slots:
     recommended: True
     description: Finer detail on the EOVs - mandatory where applicable
     slot_uri: schema:variableMeasured
+    maximum_cardinality: 1
     range: EovDescriptionsBioGeoChemistry
 
   eov_description_physics:
@@ -140,6 +170,7 @@ slots:
     recommended: True
     description: Finer detail on the EOVs - mandatory where applicable
     slot_uri: schema:variableMeasured
+    maximum_cardinality: 1
     range: EovDescriptionsPhysics
 
   evb:
@@ -147,6 +178,7 @@ slots:
     recommended: True
     description: Choose from the drop-down which EBV your dataset contains- mandatory where applicable
     slot_uri: schema:variableMeasured
+    maximum_cardinality: 1
     range: uriorcurie
 
   indicator:
@@ -154,6 +186,7 @@ slots:
     recommended: True
     description: Choose from the drop-down which Indicator your dataset contains- mandatory where applicable
     slot_uri: schema:variableMeasured
+    maximum_cardinality: 1
     range: uriorcurie
 
   source_dataset_identifier:
